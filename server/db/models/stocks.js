@@ -1,16 +1,13 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const Transaction = db.define('transaction', {
+const Stocks = db.define('stock', {
   ticker: {
     type: Sequelize.STRING
   },
-  shares: {
+  quantityOwned: {
     type: Sequelize.INTEGER
-  },
-  priceAtPurchase: {
-    type: Sequelize.FLOAT
   }
 })
 
-module.exports = Transaction
+module.exports = Stocks
