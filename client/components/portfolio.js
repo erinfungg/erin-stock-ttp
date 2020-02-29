@@ -1,15 +1,18 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import {getStock} from '../store/stock'
+import {getPortfolio} from '../store/portfolio'
 import Stock from './stock-info'
 
-/**
- * COMPONENT
- */
 export const Portfolio = props => {
-  const [ticker, setTicker] = React.useState({})
+  const [ticker, setTicker] = useState({})
 
   const {cashBalance, stockInfo} = props
+
+  useEffect(() => {
+    props.getPortfolio(props.user.id)
+    console.log('PORTFOLIO INFO ON STATE', props.portfolio)
+  }, [])
 
   const handleChange = event => {
     setTicker(event.target.value.toUpperCase())
@@ -28,6 +31,13 @@ export const Portfolio = props => {
           <th>Shares</th>
           <th>Current Value</th>
         </tr>
+        {props.portfolio.map(stock => (
+          <tr key={stock.id}>
+            <td>{stock.ticker}</td>
+            <td>{stock.quantityOwned}</td>
+            <td />
+          </tr>
+        ))}
       </table>
       <div>
         <input
@@ -45,15 +55,15 @@ export const Portfolio = props => {
   )
 }
 
-/**
- * CONTAINER
- */
 const mapState = state => ({
+  user: state.user,
   cashBalance: state.user.cashBalance,
-  stockInfo: state.stock
+  stockInfo: state.stock,
+  portfolio: state.portfolio
 })
 
 const mapDispatch = dispatch => ({
+  getPortfolio: userId => dispatch(getPortfolio(userId)),
   getStock: ticker => dispatch(getStock(ticker))
 })
 

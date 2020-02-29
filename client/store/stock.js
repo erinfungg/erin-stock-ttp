@@ -4,11 +4,16 @@ const API_KEY = 'DITHX3KA0NAN5NOZ'
 
 //ACTION TYPES
 const GOT_STOCK = 'GOT_STOCK'
+const SAVED_PURCHASE = 'SAVED_PURCHASE'
 
 //ACTION CREATORS
 const gotStock = stockInfo => ({
   type: GOT_STOCK,
   stockInfo
+})
+
+const savedPurchase = () => ({
+  type: SAVED_PURCHASE
 })
 
 //THUNKS
@@ -29,6 +34,17 @@ export const getStock = ticker => async dispatch => {
     dispatch(gotStock(simpleData))
   } catch (error) {
     console.log('error getting stock information: ', error)
+  }
+}
+
+export const savingPurchase = (userId, info) => async dispatch => {
+  try {
+    console.log('INFO IN SAVINGPURCHASE THUNK', info)
+    const {data} = await axios.post(`/api/users/${userId}/portfolio`, info)
+    console.log(data)
+    // dispatch(savedPurchase(data))
+  } catch (error) {
+    console.log('error saving purchase: ', error)
   }
 }
 
