@@ -27,7 +27,6 @@ router.post('/', async (req, res, next) => {
     console.log(stock)
     stock[0].quantityOwned += +req.body.shares
     await stock[0].save()
-    console.log('STOCK INSTANCE FROM ROUTE: ', stock)
     res.json(stock[0])
   } catch (error) {
     next(error)

@@ -4,7 +4,7 @@ import {savingPurchase} from '../store/portfolio'
 
 const Stock = props => {
   const [stockQuantity, setStockQuantity] = useState(0)
-  const stockInfo = props.stockInfo
+  const {stockInfo, user} = props
 
   const handleChange = event => {
     setStockQuantity(event.target.value)
@@ -35,19 +35,15 @@ const Stock = props => {
         placeholder="Quantity"
         onChange={handleChange}
       />
-      <button type="button" onClick={() => handlePurchase(props.user.id)}>
+      <button type="button" onClick={() => handlePurchase(user.id)}>
         Purchase
       </button>
     </div>
   )
 }
 
-const mapState = state => ({
-  user: state.user
-})
-
 const mapDispatch = dispatch => ({
   savingPurchase: (userId, info) => dispatch(savingPurchase(userId, info))
 })
 
-export default connect(mapState, mapDispatch)(Stock)
+export default connect(null, mapDispatch)(Stock)

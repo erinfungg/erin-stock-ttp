@@ -3,20 +3,33 @@ import axios from 'axios'
 const API_KEY = 'DITHX3KA0NAN5NOZ'
 
 //ACTION TYPES
+const GOT_CURRENT_PRICE = 'GOT_CURRENT_PRICE'
 const GOT_STOCK = 'GOT_STOCK'
-const SAVED_PURCHASE = 'SAVED_PURCHASE'
 
 //ACTION CREATORS
+const gotCurrentPrice = price => ({
+  type: GOT_CURRENT_PRICE,
+  price
+})
 const gotStock = stockInfo => ({
   type: GOT_STOCK,
   stockInfo
 })
 
-const savedPurchase = () => ({
-  type: SAVED_PURCHASE
-})
-
 //THUNKS
+export const getCurrentPrice = ticker => async dispatch => {
+  try {
+    const {data} = await axios.get(
+      `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${ticker}&apikey=${API_KEY}`
+    )
+    console.log('GET CURR PRICE THUNK DATA: ', data)
+    const price = {[ticker]: data['Global Quote']['05. price']}
+    dispatch(gotCurrentPrice(price))
+  } catch (error) {
+    console.log('error getting the current price: ', error)
+  }
+}
+
 export const getStock = ticker => async dispatch => {
   try {
     const {data} = await axios.get(
@@ -37,23 +50,20 @@ export const getStock = ticker => async dispatch => {
   }
 }
 
-export const savingPurchase = (userId, info) => async dispatch => {
-  try {
-    console.log('INFO IN SAVINGPURCHASE THUNK', info)
-    const {data} = await axios.post(`/api/users/${userId}/portfolio`, info)
-    console.log(data)
-    // dispatch(savedPurchase(data))
-  } catch (error) {
-    console.log('error saving purchase: ', error)
-  }
+//INITIAL STATE
+const initialState = {
+  stockInfo: {},
+  currPrices: {}
 }
 
 //REDUCER
 
-export default function(state = {}, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
+    case GOT_CURRENT_PRICE:
+      return {...state, currPrices: {...state.currPrices, ...action.price}}
     case GOT_STOCK:
-      return action.stockInfo
+      return {...state, stockInfo: action.stockInfo}
     default:
       return state
   }

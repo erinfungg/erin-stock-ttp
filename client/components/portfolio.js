@@ -1,18 +1,27 @@
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
-import {getStock} from '../store/stock'
+import {getStock, getCurrentPrice} from '../store/stock'
 import {getPortfolio} from '../store/portfolio'
 import Stock from './stock-info'
 
 export const Portfolio = props => {
   const [ticker, setTicker] = useState({})
 
-  const {cashBalance, stockInfo} = props
+  const {cashBalance, stockInfo, portfolio, currPrices} = props
 
   useEffect(() => {
     props.getPortfolio(props.user.id)
-    console.log('PORTFOLIO INFO ON STATE', props.portfolio)
   }, [])
+
+  useEffect(
+    () => {
+      portfolio.forEach(stock => {
+        console.log('mapping over stocks: ', stock)
+        props.getCurrentPrice(stock.ticker)
+      })
+    },
+    [portfolio]
+  )
 
   const handleChange = event => {
     setTicker(event.target.value.toUpperCase())
@@ -31,11 +40,15 @@ export const Portfolio = props => {
           <th>Shares</th>
           <th>Current Value</th>
         </tr>
-        {props.portfolio.map(stock => (
+        {portfolio.map(stock => (
           <tr key={stock.id}>
             <td>{stock.ticker}</td>
             <td>{stock.quantityOwned}</td>
-            <td />
+            {Object.keys(currPrices).length === portfolio.length ? (
+              <td>${+currPrices[stock.ticker] * +stock.quantityOwned}</td>
+            ) : (
+              'Calculating...'
+            )}
           </tr>
         ))}
       </table>
@@ -49,7 +62,9 @@ export const Portfolio = props => {
         <button type="button" onClick={handleSearch}>
           Search
         </button>
-        {stockInfo.symbol === ticker ? <Stock stockInfo={stockInfo} /> : null}
+        {stockInfo.symbol === ticker ? (
+          <Stock stockInfo={stockInfo} user={props.user} />
+        ) : null}
       </div>
     </div>
   )
@@ -58,13 +73,15 @@ export const Portfolio = props => {
 const mapState = state => ({
   user: state.user,
   cashBalance: state.user.cashBalance,
-  stockInfo: state.stock,
-  portfolio: state.portfolio
+  stockInfo: state.stock.stockInfo,
+  portfolio: state.portfolio,
+  currPrices: state.stock.currPrices
 })
 
 const mapDispatch = dispatch => ({
   getPortfolio: userId => dispatch(getPortfolio(userId)),
-  getStock: ticker => dispatch(getStock(ticker))
+  getStock: ticker => dispatch(getStock(ticker)),
+  getCurrentPrice: ticker => dispatch(getCurrentPrice(ticker))
 })
 
 export default connect(mapState, mapDispatch)(Portfolio)
