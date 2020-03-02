@@ -20,7 +20,6 @@ router.get('/', async (req, res, next) => {
 //create or update if ticker already exists for user
 router.post('/', async (req, res, next) => {
   try {
-    console.log(req.body)
     const stock = await Stocks.findOrCreate({
       where: {userId: req.user.id, ticker: req.body.ticker}
     })

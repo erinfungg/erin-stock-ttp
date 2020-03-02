@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import {savingPurchase} from '../store/portfolio'
 import {updateCashBalance} from '../store/user'
+import {savingTransaction} from '../store/transactions'
 
 const Stock = props => {
   const [stockQuantity, setStockQuantity] = useState(0)
@@ -26,6 +27,7 @@ const Stock = props => {
     } else {
       props.savingPurchase(userId, info)
       props.updateCashBalance(userId, info)
+      props.savingTransaction(userId, info)
     }
   }
   return (
@@ -58,7 +60,8 @@ const Stock = props => {
 const mapDispatch = dispatch => ({
   savingPurchase: (userId, info) => dispatch(savingPurchase(userId, info)),
   updateCashBalance: (userId, purchaseInfo) =>
-    dispatch(updateCashBalance(userId, purchaseInfo))
+    dispatch(updateCashBalance(userId, purchaseInfo)),
+  savingTransaction: (userId, info) => dispatch(savingTransaction(userId, info))
 })
 
 export default connect(null, mapDispatch)(Stock)

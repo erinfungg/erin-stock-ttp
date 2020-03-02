@@ -27,9 +27,7 @@ export const getPortfolio = userId => async dispatch => {
 
 export const savingPurchase = (userId, info) => async dispatch => {
   try {
-    console.log('INFO IN SAVINGPURCHASE THUNK', info)
     const {data} = await axios.post(`/api/users/${userId}/portfolio`, info)
-    console.log('RETURNED NEW PURCHASE DATA: ', data)
     dispatch(getPortfolio(userId))
   } catch (error) {
     console.log('error saving purchase: ', error)

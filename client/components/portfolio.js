@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import {getStock, getCurrentPrice} from '../store/stock'
 import {getPortfolio} from '../store/portfolio'
-import Stock from './stock-info'
+import Stock from './StockInfo'
 
 export const Portfolio = props => {
   const {cashBalance, stockInfo, portfolio, currPrices, user} = props
