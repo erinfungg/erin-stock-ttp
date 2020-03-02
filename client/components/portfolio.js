@@ -5,18 +5,16 @@ import {getPortfolio} from '../store/portfolio'
 import Stock from './stock-info'
 
 export const Portfolio = props => {
+  const {cashBalance, stockInfo, portfolio, currPrices, user} = props
   const [ticker, setTicker] = useState({})
 
-  const {cashBalance, stockInfo, portfolio, currPrices} = props
-
   useEffect(() => {
-    props.getPortfolio(props.user.id)
+    props.getPortfolio(user.id)
   }, [])
 
   useEffect(
     () => {
       portfolio.forEach(stock => {
-        console.log('mapping over stocks: ', stock)
         props.getCurrentPrice(stock.ticker)
       })
     },
@@ -33,7 +31,7 @@ export const Portfolio = props => {
 
   return (
     <div>
-      <h3>Portfolio: ${cashBalance}</h3>
+      <h3>Portfolio: ${(cashBalance / 100).toFixed(2)}</h3>
       <table>
         <tr>
           <th>Ticker Symbol</th>
@@ -45,7 +43,9 @@ export const Portfolio = props => {
             <td>{stock.ticker}</td>
             <td>{stock.quantityOwned}</td>
             {Object.keys(currPrices).length === portfolio.length ? (
-              <td>${+currPrices[stock.ticker] * +stock.quantityOwned}</td>
+              <td>
+                ${(+currPrices[stock.ticker] * stock.quantityOwned).toFixed(2)}
+              </td>
             ) : (
               'Calculating...'
             )}
@@ -63,7 +63,11 @@ export const Portfolio = props => {
           Search
         </button>
         {stockInfo.symbol === ticker ? (
-          <Stock stockInfo={stockInfo} user={props.user} />
+          <Stock
+            stockInfo={stockInfo}
+            user={props.user}
+            currPrices={currPrices}
+          />
         ) : null}
       </div>
     </div>

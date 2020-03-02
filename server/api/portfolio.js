@@ -24,7 +24,6 @@ router.post('/', async (req, res, next) => {
     const stock = await Stocks.findOrCreate({
       where: {userId: req.user.id, ticker: req.body.ticker}
     })
-    console.log(stock)
     stock[0].quantityOwned += +req.body.shares
     await stock[0].save()
     res.json(stock[0])

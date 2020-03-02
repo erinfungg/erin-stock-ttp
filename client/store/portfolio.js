@@ -18,10 +18,10 @@ const savedPurchase = newStock => ({
 export const getPortfolio = userId => async dispatch => {
   try {
     const {data} = await axios.get(`/api/users/${userId}/portfolio`)
-    console.log('PORTFOLIO DATA FROM THUNK: ', data)
-    dispatch(gotPortfolio(data))
+    let sorted = data.sort((a, b) => (a.id > b.id ? 1 : -1))
+    dispatch(gotPortfolio(sorted))
   } catch (error) {
-    console.log('error getting portfolio')
+    console.log('error getting portfolio: ', error)
   }
 }
 
@@ -40,10 +40,6 @@ export default function(state = [], action) {
   switch (action.type) {
     case GOT_PORTFOLIO:
       return action.portfolio
-    // case SAVED_PURCHASE:
-    // 	const stateToUpdate = state.filter(stockObj => stockObj.ticker === action[stockObj.ticker])
-
-    //   return state
     default:
       return state
   }

@@ -23,7 +23,10 @@ export const getCurrentPrice = ticker => async dispatch => {
       `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${ticker}&apikey=${API_KEY}`
     )
     console.log('GET CURR PRICE THUNK DATA: ', data)
-    const price = {[ticker]: data['Global Quote']['05. price']}
+    const price = {
+      [ticker]: data['Global Quote']['05. price']
+    }
+    console.log(price)
     dispatch(gotCurrentPrice(price))
   } catch (error) {
     console.log('error getting the current price: ', error)

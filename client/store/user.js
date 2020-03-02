@@ -56,6 +56,16 @@ export const logout = () => async dispatch => {
   }
 }
 
+export const updateCashBalance = (userId, purchaseInfo) => async dispatch => {
+  try {
+    console.log('CASHBALANCE THUNK: ', purchaseInfo)
+    await axios.put(`/api/users/${userId}`, purchaseInfo)
+    dispatch(me())
+  } catch (error) {
+    console.log('error updating cash balance: ', error)
+  }
+}
+
 /**
  * REDUCER
  */
