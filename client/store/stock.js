@@ -26,7 +26,6 @@ export const getCurrentPrice = ticker => async dispatch => {
     const price = {
       [ticker]: data['Global Quote']['05. price']
     }
-    console.log(price)
     dispatch(gotCurrentPrice(price))
   } catch (error) {
     console.log('error getting the current price: ', error)

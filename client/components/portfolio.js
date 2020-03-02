@@ -65,7 +65,8 @@ export const Portfolio = props => {
         {stockInfo.symbol === ticker ? (
           <Stock
             stockInfo={stockInfo}
-            user={props.user}
+            user={user}
+            cashBalance={cashBalance}
             currPrices={currPrices}
           />
         ) : null}

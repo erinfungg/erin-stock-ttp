@@ -5,7 +5,8 @@ import {updateCashBalance} from '../store/user'
 
 const Stock = props => {
   const [stockQuantity, setStockQuantity] = useState(0)
-  const {stockInfo, user} = props
+  const [errorMessage, setErrorMessage] = useState('')
+  const {stockInfo, user, cashBalance} = props
 
   const handleChange = event => {
     setStockQuantity(event.target.value)
@@ -17,8 +18,15 @@ const Stock = props => {
       shares: stockQuantity,
       priceAtPurchase: (+stockInfo.price * 100).toFixed(0)
     }
-    props.savingPurchase(userId, info)
-    props.updateCashBalance(userId, info)
+    const balance =
+      cashBalance - (+stockInfo.price * 100 * stockQuantity).toFixed(0)
+    console.log('BALANCE CHECK: ', balance)
+    if (balance < 0) {
+      setErrorMessage('Sorry! Not enough money.')
+    } else {
+      props.savingPurchase(userId, info)
+      props.updateCashBalance(userId, info)
+    }
   }
   return (
     <div className="stockWrapper">
@@ -42,6 +50,7 @@ const Stock = props => {
       <button type="button" onClick={() => handlePurchase(user.id)}>
         Purchase
       </button>
+      {errorMessage ? <div>{errorMessage}</div> : null}
     </div>
   )
 }
