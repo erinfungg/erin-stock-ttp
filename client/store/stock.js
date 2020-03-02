@@ -22,10 +22,13 @@ export const getCurrentPrice = ticker => async dispatch => {
     const {data} = await axios.get(
       `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${ticker}&apikey=${API_KEY}`
     )
-    console.log('GET CURR PRICE THUNK DATA: ', data)
     const price = {
-      [ticker]: data['Global Quote']['05. price']
+      [ticker]: {
+        currentPrice: data['Global Quote']['05. price'],
+        openPrice: data['Global Quote']['02. open']
+      }
     }
+    console.log('prices: ', price)
     dispatch(gotCurrentPrice(price))
   } catch (error) {
     console.log('error getting the current price: ', error)
@@ -55,7 +58,7 @@ export const getStock = ticker => async dispatch => {
 //INITIAL STATE
 const initialState = {
   stockInfo: {},
-  currPrices: {}
+  prices: {}
 }
 
 //REDUCER
@@ -63,7 +66,7 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case GOT_CURRENT_PRICE:
-      return {...state, currPrices: {...state.currPrices, ...action.price}}
+      return {...state, prices: {...state.prices, ...action.price}}
     case GOT_STOCK:
       return {...state, stockInfo: action.stockInfo}
     default:

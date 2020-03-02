@@ -5,7 +5,7 @@ import {getPortfolio} from '../store/portfolio'
 import Stock from './StockInfo'
 
 export const Portfolio = props => {
-  const {cashBalance, stockInfo, portfolio, currPrices, user} = props
+  const {cashBalance, stockInfo, portfolio, prices, user} = props
   const [ticker, setTicker] = useState({})
 
   useEffect(() => {
@@ -29,6 +29,19 @@ export const Portfolio = props => {
     props.getStock(ticker)
   }
 
+  const colorDisplay = stock => {
+    if (Object.keys(prices).length === portfolio.length) {
+      if (+prices[stock.ticker].currentPrice > +prices[stock.ticker].openPrice)
+        return 'green'
+      else if (
+        +prices[stock.ticker].currentPrice < +prices[stock.ticker].openPrice
+      )
+        return 'red'
+      else return 'grey'
+    }
+    return 'grey'
+  }
+
   return (
     <div>
       <h3>Portfolio: ${(cashBalance / 100).toFixed(2)}</h3>
@@ -40,11 +53,20 @@ export const Portfolio = props => {
         </tr>
         {portfolio.map(stock => (
           <tr key={stock.id}>
-            <td>{stock.ticker}</td>
+            <td
+              style={{
+                color: colorDisplay(stock)
+              }}
+            >
+              {stock.ticker}
+            </td>
             <td>{stock.quantityOwned}</td>
-            {Object.keys(currPrices).length === portfolio.length ? (
+            {Object.keys(prices).length === portfolio.length ? (
               <td>
-                ${(+currPrices[stock.ticker] * stock.quantityOwned).toFixed(2)}
+                $
+                {(
+                  +prices[stock.ticker].currentPrice * stock.quantityOwned
+                ).toFixed(2)}
               </td>
             ) : (
               'Calculating...'
@@ -63,12 +85,7 @@ export const Portfolio = props => {
           Search
         </button>
         {stockInfo.symbol === ticker ? (
-          <Stock
-            stockInfo={stockInfo}
-            user={user}
-            cashBalance={cashBalance}
-            currPrices={currPrices}
-          />
+          <Stock stockInfo={stockInfo} user={user} cashBalance={cashBalance} />
         ) : null}
       </div>
     </div>
@@ -80,7 +97,7 @@ const mapState = state => ({
   cashBalance: state.user.cashBalance,
   stockInfo: state.stock.stockInfo,
   portfolio: state.portfolio,
-  currPrices: state.stock.currPrices
+  prices: state.stock.prices
 })
 
 const mapDispatch = dispatch => ({
