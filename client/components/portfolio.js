@@ -57,36 +57,39 @@ export const Portfolio = props => {
         <h3 id="portfolio-title">
           Portfolio: ${(cashBalance / 100).toFixed(2)}
         </h3>
+
         <table className="portfolio-table">
-          <tr>
-            <th>Ticker Symbol</th>
-            <th>Company</th>
-            <th>Shares</th>
-            <th className="column-padding">Current Value</th>
-          </tr>
-          {portfolio.map(stock => (
-            <tr key={stock.id}>
-              <td
-                style={{
-                  color: colorDisplay(stock)
-                }}
-              >
-                {stock.ticker}
-              </td>
-              <td>{stock.companyName}</td>
-              <td>{stock.quantityOwned}</td>
-              {Object.keys(prices).length === portfolio.length ? (
-                <td className="column-padding">
-                  $
-                  {(
-                    +prices[stock.ticker].currentPrice * stock.quantityOwned
-                  ).toFixed(2)}
-                </td>
-              ) : (
-                'Calculating...'
-              )}
+          <tbody>
+            <tr>
+              <th>Ticker Symbol</th>
+              <th>Company</th>
+              <th>Shares</th>
+              <th className="column-padding">Current Value</th>
             </tr>
-          ))}
+            {portfolio.map(stock => (
+              <tr key={stock.id}>
+                <td
+                  style={{
+                    color: colorDisplay(stock)
+                  }}
+                >
+                  {stock.ticker}
+                </td>
+                <td>{stock.companyName}</td>
+                <td>{stock.quantityOwned}</td>
+                {Object.keys(prices).length === portfolio.length ? (
+                  <td className="column-padding">
+                    $
+                    {(
+                      +prices[stock.ticker].currentPrice * stock.quantityOwned
+                    ).toFixed(2)}
+                  </td>
+                ) : (
+                  'Calculating...'
+                )}
+              </tr>
+            ))}
+          </tbody>
         </table>
       </div>
       <div className="stock-component width50">
