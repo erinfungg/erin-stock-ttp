@@ -96,6 +96,7 @@ export const Portfolio = props => {
             type="text"
             placeholder="Ticker Symbol..."
             onChange={handleChange}
+            onKeyPress={handleSearch}
           />
           <button type="button" onClick={handleSearch}>
             Search

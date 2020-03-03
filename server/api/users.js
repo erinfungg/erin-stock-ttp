@@ -6,7 +6,6 @@ module.exports = router
 router.use('/:id/portfolio', checkUser, require('./portfolio'))
 router.use('/:id/transactions', checkUser, require('./transaction'))
 
-//updates user's cash balance
 router.put('/:id', checkUser, async (req, res, next) => {
   try {
     const updatedUser = await User.findByPk(req.user.id)
@@ -19,17 +18,3 @@ router.put('/:id', checkUser, async (req, res, next) => {
     next(error)
   }
 })
-
-// router.get('/', async (req, res, next) => {
-//   try {
-//     const users = await User.findAll({
-//       // explicitly select only the id and email fields - even though
-//       // users' passwords are encrypted, it won't help if we just
-//       // send everything to anyone who asks!
-//       attributes: ['id', 'email']
-//     })
-//     res.json(users)
-//   } catch (err) {
-//     next(err)
-//   }
-// })
