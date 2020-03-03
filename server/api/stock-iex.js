@@ -10,6 +10,7 @@ router.get('/:ticker', async (req, res, next) => {
         req.params.ticker
       }&types=quote&range=1m&last=5&token=${IEX_API_KEY}`
     )
+    console.log(data)
     const ticker = req.params.ticker.toUpperCase()
     const simpleData = {
       symbol: data[ticker].quote.symbol,

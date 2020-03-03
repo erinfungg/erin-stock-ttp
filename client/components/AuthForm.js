@@ -19,14 +19,13 @@ const AuthForm = props => {
       }}
     >
       <Segment
-        inverted
         style={{
           margin: '30px',
           width: '50%',
           height: '45%'
         }}
       >
-        <Form inverted onSubmit={handleSubmit} name={name}>
+        <Form onSubmit={handleSubmit} name={name}>
           <Form.Group widths="equal">
             <Form.Input
               fluid

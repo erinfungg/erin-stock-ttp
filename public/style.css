@@ -3,6 +3,8 @@ body {
   font-family: sans-serif;
   height: 100%;
   margin: 0px;
+  background-color: #1b1c1d !important;
+  color: white !important;
 }
 
 a {
@@ -11,7 +13,7 @@ a {
 
 nav a:hover {
   color: grey;
-  font-style: italic;
+  /* font-style: italic; */
 }
 
 nav a:active {
@@ -30,7 +32,7 @@ nav {
 nav a {
   display: inline-block;
   margin: 1em;
-  color: black;
+  color: white;
 }
 
 form div {
@@ -126,10 +128,30 @@ tr {
   width: 75%;
   height: 30px;
   border: 0px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid white;
+  background-color: #1b1c1d;
+  color: white;
 }
 
 .search button {
   width: 20%;
+  border: 1px solid white;
+  background-color: #1b1c1d;
+  color: white;
+}
+
+.purchase input {
+  background-color: #1b1c1d;
+  color: white;
   border: 0px;
+  border-bottom: 1px solid white;
+}
+.purchase button {
+  background-color: #1b1c1d;
+  color: white;
+  border: 0px;
+}
+
+.purchase button:hover {
+  font-style: italic;
 }

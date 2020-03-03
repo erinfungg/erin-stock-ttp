@@ -46,7 +46,7 @@ const Stock = props => {
         <div>Current Price: ${(+stockInfo.price).toFixed(2)}</div>
         <div>Change: {(+stockInfo.change).toFixed(4)}%</div>
       </div>
-      <div>
+      <div className="purchase">
         <input
           style={{width: '100px'}}
           name="buyShares"
