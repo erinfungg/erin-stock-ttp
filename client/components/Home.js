@@ -4,7 +4,14 @@ import {connect} from 'react-redux'
 const Home = props => {
   const {user} = props
   return (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '50%'
+      }}
+    >
       <h3>Welcome, {user.email}!</h3>
     </div>
   )

@@ -1,21 +1,135 @@
+html,
 body {
   font-family: sans-serif;
+  height: 100%;
+  margin: 0px;
 }
 
 a {
   text-decoration: none;
 }
 
+nav a:hover {
+  color: grey;
+  font-style: italic;
+}
+
+nav a:active {
+  color: green;
+}
+
 label {
   display: block;
 }
 
+nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 nav a {
   display: inline-block;
   margin: 1em;
+  color: black;
 }
 
 form div {
   margin: 1em;
   display: inline-block;
+}
+th,
+tr {
+  text-align: center;
+}
+.app-container,
+#app {
+  height: 100%;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+}
+.nav-container h1 {
+  margin: 0;
+}
+
+.transactions-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.transactions-table {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.transactions-table th {
+  font-size: 15px;
+}
+
+.transactions-table tr {
+  margin: 10px;
+}
+
+.portfolio-page {
+  display: flex;
+  height: 50%;
+}
+
+.portfolio-container,
+.stock-component {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+#portfolio-title {
+  padding: 20px;
+}
+
+.portfolio-table {
+  width: 75%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.column-padding {
+  padding: 5px;
+}
+
+.stock-component {
+  height: 100%;
+}
+.stock-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  height: 80%;
+  margin: 0 auto;
+}
+.stockInfoContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 80%;
+}
+.search {
+  display: flex;
+  text-align: center;
+  justify-content: space-around;
+}
+
+.search input {
+  width: 75%;
+  height: 30px;
+  border: 0px;
+  border-bottom: 1px solid black;
+}
+
+.search button {
+  width: 20%;
+  border: 0px;
 }

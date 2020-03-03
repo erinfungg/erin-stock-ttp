@@ -19,17 +19,8 @@ const gotStock = stockInfo => ({
 //THUNKS
 export const getCurrentPrice = ticker => async dispatch => {
   try {
-    const {data} = await axios.get(
-      `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${ticker}&apikey=${API_KEY}`
-    )
-    const price = {
-      [ticker]: {
-        currentPrice: data['Global Quote']['05. price'],
-        openPrice: data['Global Quote']['02. open']
-      }
-    }
-    console.log('prices: ', price)
-    dispatch(gotCurrentPrice(price))
+    const {data} = await axios.post(`/api/stocks/prices`, {ticker})
+    dispatch(gotCurrentPrice(data))
   } catch (error) {
     console.log('error getting the current price: ', error)
   }
@@ -37,19 +28,8 @@ export const getCurrentPrice = ticker => async dispatch => {
 
 export const getStock = ticker => async dispatch => {
   try {
-    const {data} = await axios.get(
-      `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${ticker}&apikey=${API_KEY}`
-    )
-    const simpleData = {
-      symbol: data['Global Quote']['01. symbol'],
-      open: data['Global Quote']['02. open'],
-      high: data['Global Quote']['03. high'],
-      low: data['Global Quote']['04. low'],
-      price: data['Global Quote']['05. price'],
-      previousClose: data['Global Quote']['08. previous close'],
-      change: data['Global Quote']['09. change']
-    }
-    dispatch(gotStock(simpleData))
+    const {data} = await axios.get(`/api/stocks/${ticker}`)
+    dispatch(gotStock(data))
   } catch (error) {
     console.log('error getting stock information: ', error)
   }

@@ -5,6 +5,9 @@ const Stocks = db.define('stock', {
   ticker: {
     type: Sequelize.STRING
   },
+  companyName: {
+    type: Sequelize.STRING
+  },
   quantityOwned: {
     type: Sequelize.INTEGER,
     defaultValue: 0

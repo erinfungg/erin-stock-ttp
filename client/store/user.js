@@ -40,7 +40,7 @@ export const auth = (email, password, method) => async dispatch => {
 
   try {
     dispatch(getUser(res.data))
-    history.push('/portfolio')
+    history.push('/')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }
@@ -58,7 +58,6 @@ export const logout = () => async dispatch => {
 
 export const updateCashBalance = (userId, purchaseInfo) => async dispatch => {
   try {
-    console.log('CASHBALANCE THUNK: ', purchaseInfo)
     await axios.put(`/api/users/${userId}`, purchaseInfo)
     dispatch(me())
   } catch (error) {

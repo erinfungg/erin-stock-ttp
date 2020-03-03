@@ -21,10 +21,10 @@ router.post('/', async (req, res, next) => {
     const transaction = await Transaction.create({
       userId: req.user.id,
       ticker: req.body.ticker,
+      companyName: req.body.company,
       shares: req.body.shares,
       priceAtPurchase: req.body.priceAtPurchase
     })
-    console.log('DATA RETURNED FROM TRANSACTION: ', transaction)
     res.json(transaction)
   } catch (error) {
     next(error)

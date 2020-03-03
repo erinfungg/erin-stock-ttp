@@ -10,18 +10,23 @@ const Stock = props => {
   const {stockInfo, user, cashBalance} = props
 
   const handleChange = event => {
+    setErrorMessage('')
     setStockQuantity(event.target.value)
   }
 
   const handlePurchase = userId => {
+    if (stockQuantity <= 0) {
+      setErrorMessage('Must be valid quantity.')
+      return
+    }
     const info = {
       ticker: stockInfo.symbol,
+      company: stockInfo.company,
       shares: stockQuantity,
       priceAtPurchase: (+stockInfo.price * 100).toFixed(0)
     }
     const balance =
       cashBalance - (+stockInfo.price * 100 * stockQuantity).toFixed(0)
-    console.log('BALANCE CHECK: ', balance)
     if (balance < 0) {
       setErrorMessage('Sorry! Not enough money.')
     } else {
@@ -31,28 +36,29 @@ const Stock = props => {
     }
   }
   return (
-    <div className="stockWrapper">
+    <div className="stock-wrapper">
       <div className="stockInfoContainer">
         <div>Ticker Symbol: {stockInfo.symbol}</div>
-        <div>Open Price: ${(+stockInfo.open).toFixed(2)}</div>
-        <div>High Price: ${(+stockInfo.high).toFixed(2)}</div>
-        <div>Low Price: ${(+stockInfo.low).toFixed(2)}</div>
+        <div>Company: {stockInfo.company}</div>
         <div>
           Previous Closing Price: ${(+stockInfo.previousClose).toFixed(2)}
         </div>
         <div>Current Price: ${(+stockInfo.price).toFixed(2)}</div>
-        <div>Change: ${(+stockInfo.change).toFixed(2)}</div>
+        <div>Change: {(+stockInfo.change).toFixed(4)}%</div>
       </div>
-      <input
-        name="buyShares"
-        type="number"
-        placeholder="Quantity"
-        onChange={handleChange}
-      />
-      <button type="button" onClick={() => handlePurchase(user.id)}>
-        Purchase
-      </button>
-      {errorMessage ? <div>{errorMessage}</div> : null}
+      <div>
+        <input
+          style={{width: '100px'}}
+          name="buyShares"
+          type="number"
+          placeholder="Quantity"
+          onChange={handleChange}
+        />
+        <button type="button" onClick={() => handlePurchase(user.id)}>
+          Purchase
+        </button>
+        {errorMessage ? <div>{errorMessage}</div> : null}
+      </div>
     </div>
   )
 }

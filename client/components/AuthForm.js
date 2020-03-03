@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
-
+import {Button, Form, Segment, Icon} from 'semantic-ui-react'
 /**
  * COMPONENT
  */
@@ -10,26 +10,52 @@ const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      <a href="/auth/google">{displayName} with Google</a>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '50%'
+      }}
+    >
+      <Segment
+        inverted
+        style={{
+          margin: '30px',
+          width: '50%',
+          height: '45%'
+        }}
+      >
+        <Form inverted onSubmit={handleSubmit} name={name}>
+          <Form.Group widths="equal">
+            <Form.Input
+              fluid
+              label="Email"
+              placeholder="Email"
+              name="email"
+              type="text"
+              id="form-input-first-name"
+            />
+            <Form.Input
+              style={{paddingRight: '20px'}}
+              fluid
+              label="Password"
+              placeholder="Password"
+              name="password"
+              type="password"
+            />
+          </Form.Group>
+          <Button type="submit">{displayName}</Button>
+          {error && error.response && <div> {error.response.data} </div>}
+          <Button color="google plus">
+            <Icon name="google" />
+
+            <a style={{color: 'white'}} href="/auth/google">
+              {displayName} with Google
+            </a>
+          </Button>
+        </Form>
+      </Segment>
     </div>
   )
 }

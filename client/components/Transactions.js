@@ -7,21 +7,25 @@ const Transactions = props => {
   useEffect(() => {
     props.getTransactions(user.id)
   }, [])
-  console.log('transactions on state: ', transactions)
+
   return (
     <div className="transactions-container">
-      <h3>Transactions</h3>
-      <table>
+      <h2 style={{padding: '0px 25px'}}>Transactions</h2>
+      <table className="transactions-table">
         <tr>
           <th>Ticker Symbol</th>
+          <th>Company</th>
           <th>Shares Bought</th>
-          <th>Price per Share</th>
+          <th>$/share</th>
+          <th>Date</th>
         </tr>
         {transactions.map(transaction => (
           <tr key={transaction.id}>
             <td>{transaction.ticker}</td>
+            <td>{transaction.companyName}</td>
             <td>{transaction.shares}</td>
             <td>${(transaction.priceAtPurchase / 100).toFixed(2)}</td>
+            <td>{transaction.createdAt.slice(0, 10)}</td>
           </tr>
         ))}
       </table>
@@ -35,7 +39,6 @@ const mapState = state => ({
 })
 
 const mapDispatch = dispatch => ({
-  //get all transactions thunk
   getTransactions: userId => dispatch(getTransactions(userId))
 })
 

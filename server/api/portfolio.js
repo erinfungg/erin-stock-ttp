@@ -21,7 +21,11 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const stock = await Stocks.findOrCreate({
-      where: {userId: req.user.id, ticker: req.body.ticker}
+      where: {
+        userId: req.user.id,
+        ticker: req.body.ticker,
+        companyName: req.body.company
+      }
     })
     stock[0].quantityOwned += +req.body.shares
     await stock[0].save()
