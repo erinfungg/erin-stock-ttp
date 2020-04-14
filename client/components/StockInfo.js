@@ -53,7 +53,6 @@ const Stock = props => {
           type="number"
           placeholder="Quantity"
           onChange={handleChange}
-          onKeyPress={() => handlePurchase(user.id)}
         />
         <button type="button" onClick={() => handlePurchase(user.id)}>
           Purchase
